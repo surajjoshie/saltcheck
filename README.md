@@ -1,25 +1,39 @@
 # SaltCheck India — AI Generic Medicine Finder
 
-Find the cheapest generic alternative for **any Indian branded medicine** — powered by Claude AI.
-Covers every medicine sold in India: common, rare, OTC, prescription, Ayurvedic combinations.
+Find the cheapest generic alternative for **any Indian branded medicine**. This tool is designed to help consumers navigate the pharmaceutical market by identifying active salts and suggesting affordable Jan Aushadhi alternatives.
+
+Covers every medicine sold in India: common, rare, OTC, prescription, and Ayurvedic combinations.
 
 ---
 
 ## How it works
 
-```
-Browser → POST /api/lookup (your server) → Claude AI → structured JSON
+```text
+Browser → POST /api/lookup (your server) → Gemini AI → structured JSON
 ```
 
-Your **API key lives only on the server** — never in the browser. The frontend calls your own `/api/lookup` endpoint.
+1.  **Request**: The user enters a medicine name on the frontend.
+2.  **Cache Check**: The server immediately checks if this medicine has been searched before to provide instant results.
+3.  **AI Processing**: If the data is not in the cache, the server selects an available Gemini API key and requests a pharmaceutical breakdown.
+4.  **Response**: The server sends a clean, structured result back to the user, including links to purchase equivalents.
 
 ---
 
-## Get your Anthropic API key (free to start)
+## Key Features
 
-1. Go to **https://console.anthropic.com**
-2. Sign up → Dashboard → **API Keys** → **Create Key**
-3. Copy it — looks like `sk-ant-api03-xxxxx`
+*   **Multi-Key Round-Robin**: The system rotates through multiple API keys to maintain uptime and maximize free-tier limits, preventing service interruptions due to quota blocks.
+*   **Intelligent Server-Side Caching**: Common medicines are served instantly from memory to ensure fast performance and save on API usage.
+*   **Resilient Logic**: The backend includes automatic exponential backoff. If the AI servers are busy during peak hours, the application will wait and retry automatically.
+*   **Privacy and Security**: All sensitive logic, including API keys and prompt instructions, remains on the server—never exposed to the browser.
+
+---
+
+## Get your Gemini API keys (Free)
+
+1.  Go to **[https://aistudio.google.com](https://aistudio.google.com)**
+2.  Sign up → **Get API key** → **Create API key in new project**
+3.  Copy the key (it starts with `AIzaSy...`).
+4.  Repeat this process to get multiple keys for rotation.
 
 ---
 
@@ -29,123 +43,53 @@ Your **API key lives only on the server** — never in the browser. The frontend
 # 1. Install
 npm install
 
-# 2. Add your key
+# 2. Add your keys
 cp .env.example .env
-# Open .env and paste your key:  ANTHROPIC_API_KEY=sk-ant-api03-xxxxx
+# Open .env and paste your keys (comma-separated): 
+# GEMINI_API_KEYS=key1,key2,key3
 
 # 3. Start
 npm start
 # → http://localhost:3000
 ```
 
----
-
-## Deploy to Railway (FREE — recommended, 2 minutes)
-
-Railway gives you a live HTTPS URL for free.
-
-```
-1. Push this folder to a GitHub repo
-   git init
-   git add .
-   git commit -m "init"
-   # Create repo on github.com, then:
-   git remote add origin https://github.com/YOUR_NAME/saltcheck.git
-   git push -u origin main
-
-2. Go to https://railway.app → sign up with GitHub
-
-3. Click "New Project" → "Deploy from GitHub repo" → select your repo
-
-4. Click your service → "Variables" tab → Add:
-   ANTHROPIC_API_KEY = sk-ant-api03-xxxxx
-
-5. Click "Deploy" → Railway gives you a URL like:
-   https://saltcheck-production.up.railway.app
-```
-
-Done. Your app is live.
 
 ---
 
-## Deploy to Render (FREE tier)
+## Deploy to Railway (FREE — recommended)
 
-```
-1. Push to GitHub (same as above)
-
-2. Go to https://render.com → "New Web Service" → connect repo
-
-3. Settings:
-   Build command:  npm install
-   Start command:  node server.js
-
-4. Environment Variables:
-   ANTHROPIC_API_KEY = sk-ant-api03-xxxxx
-
-5. Click "Create Web Service" → live in ~2 minutes
-```
+1.  Push this folder to a GitHub repository.
+2.  Go to **[https://railway.app](https://railway.app)** and connect your repo.
+3.  In the **Variables** tab, add: `GEMINI_API_KEYS` = `key1,key2,key3`
+4.  Click **Deploy**. Railway will provide a live HTTPS URL automatically.
 
 ---
 
-## Deploy to Vercel (FREE — serverless, no sleep)
+## Cost and Performance
 
-Vercel needs a small adapter since it uses serverless functions:
-
-```bash
-npm install -g vercel
-
-# Add to your project root: vercel.json
-cat > vercel.json << 'EOF'
-{
-  "builds": [{ "src": "server.js", "use": "@vercel/node" }],
-  "routes": [{ "src": "/(.*)", "dest": "server.js" }]
-}
-EOF
-
-vercel --prod
-# It will ask for your ANTHROPIC_API_KEY — paste it
-```
-
----
-
-## Custom domain (optional)
-
-All three platforms (Railway, Render, Vercel) let you add a custom domain free:
-- Railway: Settings → Custom Domain
-- Render: Settings → Custom Domains
-- Vercel: Settings → Domains
-
----
-
-## Cost estimate
-
-Claude Sonnet 4 pricing (as of 2025):
-- Input: $3 / 1M tokens · Output: $15 / 1M tokens
-- Each medicine lookup uses ~500 tokens input + ~400 tokens output
-- **Cost per search: ~$0.0015 (≈ 10 paise)**
-- 1,000 searches/day ≈ $1.50/day
-
-Set spend limits at https://console.anthropic.com/settings/limits
+*   **Cost**: Operating on the Google Gemini free tier allows this tool to run at zero cost.
+*   **Capacity**: By rotating keys, the application can handle thousands of unique searches per day.
+*   **Efficiency**: Results for new medicines typically arrive in under 3 seconds, while cached results are delivered in milliseconds.
 
 ---
 
 ## File structure
 
-```
+```text
 saltcheck/
-├── server.js          ← Express backend + Claude API proxy
+├── server.js          ← Express backend + Key Rotation + Cache logic
 ├── package.json
-├── .env.example       ← Copy to .env, add your key
-├── .gitignore         ← .env is excluded from git
-├── Procfile           ← For Railway/Heroku
-└── public/
-    └── index.html     ← Complete frontend (no build step)
+├── .env.example       ← Template for your API keys
+├── .gitignore         ← Ensures .env is excluded from git
+├── Procfile           ← For Railway/Heroku deployment
+└── index.html     ← Complete frontend UI
 ```
+
 
 ---
 
-## Legal
+## Medical Disclaimer
 
-Prices are AI-estimated MRPs based on NPPA data, Jan Aushadhi lists, and Indian e-pharmacy pricing.
-This tool is for informational purposes only — not medical advice.
-Always consult a doctor or pharmacist before switching medicines.
+The information provided by SaltCheck India is for informational purposes only and is based on AI-estimated data and public price lists. This tool does not provide medical advice.
+
+Pharmaceutical prices and salt compositions can change. Always consult with a registered medical practitioner or a certified pharmacist before switching from a prescribed branded medicine to a generic alternative. Ensure that any generic substitute matches the exact dosage and form prescribed by your doctor.
