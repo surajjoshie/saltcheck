@@ -1,0 +1,9 @@
+# Node dependencies
+node_modules/
+gemini_session/
+# SECRETS - THIS IS THE MOST IMPORTANT LINE
+.env
+
+# Environment-specific files
+.DS_Store
+npm-debug.log

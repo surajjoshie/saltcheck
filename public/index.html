@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Find the cheapest generic alternative for any Indian branded medicine. Powered by AI — covers every medicine sold in India."/>
+<title>SaltCheck India — AI Generic Medicine Finder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+<style>
+  /* =========================
+   MOBILE RESPONSIVENESS LAYER
+   (does NOT affect desktop)
+   ========================= */
+
+/* prevent horizontal scroll issues */
+@media (max-width: 600px){
+  header{
+    flex-direction: row;
+    align-items: center;
+  }
+
+  header .wm{
+    font-size: 12px;
+  }
+
+  header .aibadge{
+    font-size: 9px !important;
+    padding: 3px 7px !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+body{
+  overflow-x:hidden;
+}
+
+/* tablets & small laptops */
+@media (max-width: 900px){
+  .page{
+    padding:3rem 1.25rem 6rem;
+  }
+
+  .hsub{
+    max-width:100%;
+  }
+}
+
+/* phones */
+@media (max-width: 600px){
+
+  .srow{
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 52px !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+
+  #inp{
+    grid-column: 1 / 2 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 52px !important;
+    flex: none !important;
+  }
+
+  .cam-btn{
+    grid-column: 2 / 3 !important;
+    width: 52px !important;
+    height: 52px !important;
+    flex: none !important;
+  }
+
+  #btn{
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    height: 52px !important;
+    flex: none !important;
+    margin-top: 4px !important;
+  }
+}
+@media (max-width: 600px){
+
+  .mctop{
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .cpill{
+    white-space: normal !important;
+    max-width: 100% !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+    line-height: 1.4 !important;
+  }
+
+  .sn,
+  .bn,
+  .sdesc{
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+  }
+}
+@media (max-width: 600px){
+  .mc{
+    padding: 1.4rem !important;
+  }
+
+  .bn{
+    font-size: 1.7rem !important;
+  }
+
+  .sn{
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+  }
+}
+  /* prevent cards from squeezing too much */
+  .mc, .tcard, .sb, .ja, .disc, .wbox{
+    padding:1.2rem;
+  }
+
+  .bn{
+    font-size:1.6rem;
+  }
+
+  .samt{
+    font-size:1.7rem;
+  }
+
+  .rp{
+    font-size:1.4rem;
+  }
+
+  /* price rows avoid overflow */
+  .pr{
+    grid-template-columns:1fr auto;
+    gap:10px;
+  }
+
+  .rr{
+    text-align:right;
+  }
+}
+
+/* very small phones */
+@media (max-width: 400px){
+
+  .page{
+    padding:2.5rem 1rem 5rem;
+  }
+
+  .h1, h1{
+    font-size:1.8rem;
+  }
+
+  .aibadge{
+    font-size:10px;
+  }
+
+  .cam-btn{
+    font-size:18px;
+  }
+
+  .tb{
+    font-size:8px;
+  }
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#faf9f6;--sur:#fff;--sur2:#f3f2ee;--sur3:#eceae4;
+  --t1:#1a1a18;--t2:#5a5a54;--t3:#9a9a92;
+  --b1:rgba(26,26,24,.1);--b2:rgba(26,26,24,.2);--bf:rgba(26,26,24,.4);
+  --ac:#1a1a18;--acf:#faf9f6;
+  --gn:#1a7a40;--gnb:#f0faf4;--gnbr:rgba(26,122,64,.2);
+  --am:#8a5200;--amb:#fdf7ee;--ambr:rgba(138,82,0,.2);
+  --bl:#1a4a8a;--blb:#eef3fc;--blbr:rgba(26,74,138,.2);
+  --rd:#b83030;--rdb:#fff2f2;--rdbr:rgba(184,48,48,.2);
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#141412;--sur:#1e1e1b;--sur2:#252520;--sur3:#2e2e28;
+  --t1:#f0ede6;--t2:#a8a59e;--t3:#68665f;
+  --b1:rgba(240,237,230,.08);--b2:rgba(240,237,230,.15);--bf:rgba(240,237,230,.35);
+  --ac:#f0ede6;--acf:#141412;
+  --gn:#3dba6e;--gnb:#0e2018;--gnbr:rgba(61,186,110,.2);
+  --am:#d4943a;--amb:#211508;--ambr:rgba(212,148,58,.2);
+  --bl:#6a9fe8;--blb:#0e1a2e;--blbr:rgba(106,159,232,.2);
+  --rd:#e06060;--rdb:#2a1414;--rdbr:rgba(224,96,96,.2);
+}}
+
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;-webkit-font-smoothing:antialiased}
+.page{max-width:700px;margin:0 auto;padding:4rem 1.5rem 7rem}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4rem}
+.wm{font-family:'DM Serif Display',serif;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);display:flex;align-items:center;gap:8px}
+.wdot{width:7px;height:7px;border-radius:50%;background:var(--t3)}
+.aibadge{font-size:11px;font-family:'DM Mono',monospace;color:var(--gn);background:var(--gnb);border:1px solid var(--gnbr);padding:4px 12px;border-radius:20px}
+.hero{margin-bottom:2.5rem}
+h1{font-family:'DM Serif Display',serif;font-size:clamp(2.2rem,6vw,3.2rem);font-weight:400;line-height:1.1;margin-bottom:.6rem}
+h1 em{font-style:italic;color:var(--t2)}
+.hsub{font-size:15px;color:var(--t3);font-weight:300;max-width:440px;line-height:1.65}
+.srow{display:flex;gap:10px;margin-bottom:.75rem}
+#inp{flex:1;height:52px;border:1px solid var(--b2);border-radius:10px;padding:0 18px;font-family:'DM Mono',monospace;font-size:14px;background:var(--sur);color:var(--t1);outline:none;transition:border-color .15s,box-shadow .15s}
+#inp:focus{border-color:var(--bf);box-shadow:0 0 0 3px rgba(26,26,24,.05)}
+#inp::placeholder{color:var(--t3);font-family:'DM Sans',sans-serif}
+#btn{height:52px;padding:0 26px;background:var(--ac);color:var(--acf);border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:opacity .15s,transform .1s;white-space:nowrap;flex-shrink:0}
+#btn:hover:not(:disabled){opacity:.75}
+#btn:active:not(:disabled){transform:scale(.97)}
+#btn:disabled{opacity:.35;cursor:not-allowed}
+.cam-btn{height:52px;width:52px;display:flex;align-items:center;justify-content:center;background:var(--sur2);border:1px solid var(--b2);border-radius:10px;cursor:pointer;transition:all 0.15s;font-size:20px}
+.cam-btn:hover{background:var(--sur3)}
+.hints{font-size:12px;color:var(--t3);font-family:'DM Mono',monospace;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center}
+.ql{color:var(--t2);cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:2px}
+.ql:hover{color:var(--t1)}
+#err{display:none;font-size:13px;color:var(--rd);padding:12px 16px;border:1px solid var(--rdbr);border-radius:10px;background:var(--rdb);margin-top:1rem}
+#err.show{display:block}
+#skeleton{display:none}
+#skeleton.show{display:block}
+.skel{background:var(--sur2);border-radius:12px;margin-bottom:1rem;overflow:hidden;position:relative}
+.skel::after{content:'';position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);animation:shimmer 1.4s infinite}
+@media(prefers-color-scheme:dark){.skel::after{background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent)}}
+@keyframes shimmer{to{transform:translateX(100%)}}
+.skel-h{height:130px}.skel-sm{height:56px}.skel-md{height:80px}.skel-lg{height:200px}
+#res{display:none;margin-top:3rem}
+#res.show{display:block}
+.sep{display:flex;align-items:center;gap:12px;margin-bottom:2rem}
+.sep::before,.sep::after{content:'';flex:1;height:1px;background:var(--b1)}
+.sep span{font-size:10px;font-family:'DM Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--t3)}
+.mc{background:var(--sur);border:1px solid var(--b1);border-radius:16px;padding:1.75rem;margin-bottom:1.5rem}
+.mctop{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:.75rem}
+.rxl{font-size:10px;font-family:'DM Mono',monospace;color:var(--t3);letter-spacing:.08em;margin-bottom:4px}
+.bn{font-family:'DM Serif Display',serif;font-size:2rem;font-weight:400;line-height:1.1;margin-bottom:3px}
+.sn{font-family:'DM Mono',monospace;font-size:12.5px;color:var(--t2)}
+.cpill{font-size:10px;font-family:'DM Mono',monospace;padding:4px 10px;border-radius:20px;border:1px solid var(--b2);color:var(--t3);white-space:nowrap;flex-shrink:0;margin-top:4px}
+.sdesc{font-size:13.5px;color:var(--t2);line-height:1.65;border-top:1px solid var(--b1);padding-top:1rem;margin-top:.25rem}
+.sb{background:var(--gnb);border:1px solid var(--gnbr);border-radius:12px;padding:1.1rem 1.4rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.sbl{display:flex;flex-direction:column;gap:2px}
+.sbl .sl{font-size:10px;font-family:'DM Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--gn);opacity:.7}
+.sbl .sd{font-size:13px;color:var(--gn)}
+.samt{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--gn);font-weight:400;white-space:nowrap}
+.tcard{background:var(--sur);border:1px solid var(--b1);border-radius:16px;overflow:hidden;margin-bottom:1.25rem}
+.thdr{padding:1rem 1.5rem;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between}
+.thdr h3{font-size:11px;font-family:'DM Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);font-weight:500}
+.pnote{font-size:11px;font-family:'DM Mono',monospace;color:var(--t3)}
+.pr{padding:1rem 1.5rem;display:grid;grid-template-columns:1fr auto;align-items:center;gap:1rem;transition:background .12s}
+.pr+.pr{border-top:1px solid var(--b1)}
+.pr:hover{background:var(--sur2)}
+.pr.ptop{background:var(--gnb)}
+.pr.ptop:hover{filter:brightness(.97)}
+.pr.pbrand{background:var(--sur2)}
+.rl{display:flex;flex-direction:column;gap:4px}
+.rnl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rname{font-size:14px;font-weight:500;color:var(--t1)}
+.rmfg{font-size:11.5px;font-family:'DM Mono',monospace;color:var(--t3)}
+.bw{margin-top:5px}.bt{height:3px;background:var(--sur3);border-radius:3px;overflow:hidden}
+.bf{height:100%;border-radius:3px;width:0%;transition:width .65s cubic-bezier(.34,1.56,.64,1)}
+.bg{background:var(--gn)}.bam{background:var(--am)}
+.tb{font-size:9px;font-family:'DM Mono',monospace;padding:2px 7px;border-radius:20px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.tc2{background:var(--gn);color:#fff}
+.tj{background:var(--gnb);color:var(--gn);border:1px solid var(--gnbr)}
+.tbr{background:var(--amb);color:var(--am);border:1px solid var(--ambr)}
+.rr{text-align:right}
+.rp{font-family:'DM Serif Display',serif;font-size:1.6rem;font-weight:400;line-height:1;color:var(--t1)}
+.rp.cg{color:var(--gn)}.rp.cm{color:var(--t3)}
+.ru{font-size:11px;font-family:'DM Mono',monospace;color:var(--t3);margin-top:2px}
+.rs{font-size:11px;font-family:'DM Mono',monospace;color:var(--gn);font-weight:500;margin-top:2px}
+.wbox{background:var(--rdb);border:1px solid var(--rdbr);border-radius:10px;padding:10px 14px;margin-bottom:1.25rem}
+.wbox p{font-size:12.5px;color:var(--rd);font-family:'DM Mono',monospace;line-height:1.5}
+.ja{background:var(--amb);border:1px solid var(--ambr);border-radius:12px;padding:1.1rem 1.4rem;margin-bottom:1.25rem;display:flex;gap:12px;align-items:flex-start}
+.ja h4{font-size:13px;font-weight:600;color:var(--am);margin-bottom:3px}
+.ja p{font-size:12.5px;color:var(--am);opacity:.85;line-height:1.6}
+.ja a{color:var(--am);text-decoration:underline;text-underline-offset:2px}
+.disc{background:var(--sur2);border:1px solid var(--b1);border-radius:12px;padding:1.1rem 1.4rem;display:flex;gap:12px;align-items:flex-start}
+.disc p{font-size:12px;color:var(--t3);line-height:1.65}
+.disc strong{color:var(--t2);font-weight:500}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+footer p{font-size:12px;color:var(--t3)}
+.fc{display:flex;gap:6px;flex-wrap:wrap}
+.fch{font-size:10px;font-family:'DM Mono',monospace;padding:2px 8px;border-radius:4px;background:var(--sur2);color:var(--t3);border:1px solid var(--b1)}
+.dots{display:inline-flex;align-items:center;gap:4px}
+.dots span{width:5px;height:5px;border-radius:50%;background:var(--acf);animation:pulse 1.2s ease-in-out infinite}
+.dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
+@keyframes pulse{0%,80%,100%{opacity:.25;transform:scale(.85)}40%{opacity:1;transform:scale(1)}}
+@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fu .3s ease forwards;opacity:0}
+.fu:nth-child(1){animation-delay:0s}.fu:nth-child(2){animation-delay:.07s}
+.fu:nth-child(3){animation-delay:.14s}.fu:nth-child(4){animation-delay:.21s}
+.fu:nth-child(5){animation-delay:.28s}.fu:nth-child(6){animation-delay:.35s}
+.fu:nth-child(7){animation-delay:.42s}
+@media(max-width:500px){
+  .page{padding:2.5rem 1.25rem 5rem}
+  /* .srow{flex-direction:column}#btn{width:100%} */
+  footer{flex-direction:column;align-items:flex-start}
+  .bn{font-size:1.65rem}.mctop{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<main class="page">
+<header>
+  <div class="wm"><span class="wdot"></span>SaltCheck</div>
+  <span class="aibadge">🇮🇳 AI-Powered</span>
+</header>
+
+<section class="hero">
+  <h1>Find the <em>generic</em><br>equivalent.</h1>
+  <p class="hsub">Enter any branded Indian medicine — from common to rare. Our AI looks up its active salt and shows the true cheapest generics, including Jan Aushadhi unbranded prices.</p>
+</section>
+
+<div class="srow">
+  <input id="inp" type="text" placeholder="Any Indian medicine — e.g. Augmentin, Telma 40, Glycomet SR…" autocomplete="off" spellcheck="false"/>
+  <!-- New Camera Button -->
+  <button class="cam-btn" onclick="document.getElementById('camInp').click()" title="Scan Medicine">📷</button>
+  <input type="file" id="camInp" accept="image/*" hidden onchange="uploadImage(this)"/>
+  <button id="btn">Search</button>
+</div>
+<p class="hints">
+  Try →
+  <span class="ql" onclick="go('Dolo 650')">Dolo 650</span>
+  <span class="ql" onclick="go('Augmentin 625')">Augmentin 625</span>
+  <span class="ql" onclick="go('Pantocid 40')">Pantocid 40</span>
+  <span class="ql" onclick="go('Combiflam')">Combiflam</span>
+  <span class="ql" onclick="go('Telma 40')">Telma 40</span>
+  <span class="ql" onclick="go('Montair LC')">Montair LC</span>
+  <span class="ql" onclick="go('Thyronorm 50')">Thyronorm 50</span>
+  <span class="ql" onclick="go('Azithral 500')">Azithral 500</span>
+</p>
+
+<div id="err"></div>
+
+<div id="skeleton" style="margin-top:3rem">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:2rem">
+    <div style="flex:1;height:1px;background:var(--b1)"></div>
+    <span style="font-size:10px;font-family:'DM Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--t3)">Looking up</span>
+    <div style="flex:1;height:1px;background:var(--b1)"></div>
+  </div>
+  <div class="skel skel-h"></div>
+  <div class="skel skel-sm"></div>
+  <div class="skel skel-md"></div>
+  <div class="skel skel-lg"></div>
+</div>
+
+<section id="res">
+  <div class="sep"><span>Results</span></div>
+  <div id="ri"></div>
+</section>
+
+<footer>
+  <p>SaltCheck © 2026 — Not a substitute for medical advice.</p>
+  <div class="fc">
+    <span class="fch">Gemini 3 Flash</span>
+    <span class="fch">NPPA 2026</span>
+    <span class="fch">Jan Aushadhi</span>
+    <span class="fch">1mg · PharmEasy</span>
+  </div>
+</footer>
+</main>
+
+<script>
+const inp  = document.getElementById("inp");
+const btn  = document.getElementById("btn");
+const errEl= document.getElementById("err");
+const resEl= document.getElementById("res");
+const skel = document.getElementById("skeleton");
+const ri   = document.getElementById("ri");
+
+inp.addEventListener("keydown", e => { if (e.key === "Enter") search(); });
+btn.addEventListener("click", search);
+function go(n) { inp.value = n; search(); }
+
+function setLoading(on) {
+  btn.disabled = on;
+  btn.innerHTML = on ? '<span class="dots"><span></span><span></span><span></span></span>' : "Search";
+  skel.classList.toggle("show", on);
+  if (on) { resEl.classList.remove("show"); errEl.classList.remove("show"); }
+}
+
+function rupee(n) { return "₹" + Number(n).toLocaleString("en-IN"); }
+function mk(t, c) { const e = document.createElement(t); if (c) e.className = c; return e; }
+
+// --- New Upload Logic ---
+async function uploadImage(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  setLoading(true);
+
+  const formData = new FormData();
+  formData.append("medicinePhoto", file);
+
+  try {
+    const res = await fetch("http://localhost:3000/api/upload-image", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      throw new Error(data.error || "Image analysis failed");
+    }
+
+    if (data.detectedMedicines && data.detectedMedicines.length > 0) {
+      renderDetectedMedicines(data.detectedMedicines);
+    } else {
+      throw new Error("No medicines detected.");
+    }
+
+  } catch (e) {
+    errEl.textContent = e.message;
+    errEl.classList.add("show");
+  } finally {
+    setLoading(false);
+    input.value = "";
+  }
+}
+
+async function search() {
+  const q = inp.value.trim();
+  if (!q) return;
+  setLoading(true);
+
+  try {
+    const res = await fetch("http://localhost:3000/api/lookup", {
+      method:  "POST",
+      headers: { "Content-Type": "application/json" },
+      body:     JSON.stringify({ medicine: q })
+    });
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      errEl.textContent = data.error || "Something went wrong. Please try again.";
+      errEl.classList.add("show");
+      return;
+    }
+    render(data);
+  } catch (e) {
+    errEl.textContent = "Network error. Check your connection.";
+    errEl.classList.add("show");
+  } finally {
+    setLoading(false);
+  }
+}
+function renderDetectedMedicines(list) {
+  ri.innerHTML = "";
+
+  const box = mk("div", "mc fu");
+
+  box.innerHTML = `
+    <p class="rxl">Detected Medicines</p>
+    <p class="sdesc" style="border-top:0;padding-top:0;margin-bottom:1rem">
+      Tap any medicine below to search its generic equivalent.
+    </p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px">
+      ${list.map(m => `
+        <button 
+          onclick="go('${m.replace(/'/g, "\\'")}')" 
+          style="
+            border:1px solid var(--b2);
+            background:var(--sur2);
+            color:var(--t1);
+            padding:8px 12px;
+            border-radius:20px;
+            font-family:'DM Mono',monospace;
+            font-size:12px;
+            cursor:pointer;
+          ">
+          ${m}
+        </button>
+      `).join("")}
+    </div>
+  `;
+
+  ri.appendChild(box);
+  resEl.classList.add("show");
+  softScrollToResults();
+}
+function render(d) {
+  ri.innerHTML = "";
+  const brandP = d.tiers?.brand?.mrp || 0;
+  const trueP  = d.tiers?.trueGeneric?.mrp || 0;
+  const savings = brandP - trueP;
+  const savePct = brandP > 0 ? Math.round((savings / brandP) * 100) : 0;
+
+  // 1. Identity card
+  const mc = mk("div", "mc fu");
+  mc.innerHTML = `
+    <div class="mctop">
+      <div>
+        <p class="rxl">Rx · Branded Medicine</p>
+        <p class="bn">${d.brandName}</p>
+        <p class="sn">${d.activeSalt}</p>
+      </div>
+      <span class="cpill">${d.therapeuticClass}</span>
+    </div>
+    <p class="sdesc">${d.saltDescription}</p>`;
+  ri.appendChild(mc);
+ function renderDetectedMedicines(list) {
+  ri.innerHTML = "";
+
+  const box = mk("div", "mc fu");
+
+  box.innerHTML = `
+    <p class="rxl">Detected Medicines</p>
+    <p class="sdesc" style="border-top:0;padding-top:0;margin-bottom:1rem">
+      Tap any medicine below to search its generic equivalent.
+    </p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px">
+      ${list.map(m => `
+        <button 
+          onclick="go('${m.replace(/'/g, "\\'")}')" 
+          style="
+            border:1px solid var(--b2);
+            background:var(--sur2);
+            color:var(--t1);
+            padding:8px 12px;
+            border-radius:20px;
+            font-family:'DM Mono',monospace;
+            font-size:12px;
+            cursor:pointer;
+          ">
+          ${m}
+        </button>
+      `).join("")}
+    </div>
+  `;
+
+  ri.appendChild(box);
+  resEl.classList.add("show");
+softScrollToResults();
+}
+  // 2. Medical Consultation Notice
+  const mn = mk("div", "wbox fu"); 
+  mn.style.border = "1px solid var(--ambr)";
+  mn.style.background = "var(--amb)";
+  mn.innerHTML = `
+    <p style="color:var(--am); font-weight:600; text-align:center; font-size: 11px; letter-spacing: 0.05em;">
+      ⚕️ MEDICAL CONSULTATION REQUIRED
+    </p>
+    <p style="color:var(--am); text-align:center; margin-top:5px; font-family: 'DM Sans', sans-serif; font-size: 13px;">
+      Please consult with a qualified medical professional before taking this medicine or switching to a generic alternative.
+    </p>
+  `;
+  ri.appendChild(mn);
+
+  // 3. Savings banner
+  if (savings > 0) {
+    const sb = mk("div", "sb fu");
+    sb.innerHTML = `
+      <div class="sbl">
+        <span class="sl">Maximum savings</span>
+        <span class="sd">vs Jan Aushadhi unbranded · per ${d.perUnit || "strip"}</span>
+      </div>
+      <div class="samt">${rupee(savings)} <small style="font-size:.9rem;opacity:.65">(${savePct}% off)</small></div>`;
+    ri.appendChild(sb);
+  }
+
+  // 4. Price comparison
+  const rows = buildRows(d);
+  const maxP  = Math.max(...rows.map(r => r.p));
+  const tc    = mk("div", "tcard fu");
+  tc.innerHTML = `
+    <div class="thdr">
+      <h3>Price comparison — Indian market 2024–25</h3>
+      <span class="pnote">per ${d.perUnit || "strip"} · approx. MRP</span>
+    </div>`;
+  rows.forEach(row => {
+    const pct   = Math.round((row.p / maxP) * 100);
+    const svPct = row.tier !== "brand" && brandP > row.p
+      ? Math.round(((brandP - row.p) / brandP) * 100) : null;
+    const pr = mk("div", `pr ${row.rc}`);
+    pr.innerHTML = `
+      <div class="rl">
+        <div class="rnl">
+          <span class="rname">${row.n}</span>
+          ${row.badges.map(b => `<span class="tb ${b.c}">${b.l}</span>`).join("")}
+        </div>
+        <span class="rmfg">${row.m}</span>
+        <div class="bw"><div class="bt"><div class="bf ${row.bc}" data-w="${pct}"></div></div></div>
+      </div>
+      <div class="rr">
+        <div class="rp ${row.pc}">${rupee(row.p)}</div>
+        <div class="ru">per ${d.perUnit || "strip"}</div>
+        ${svPct !== null ? `<div class="rs">↓ ${svPct}% cheaper</div>` : ""}
+      </div>`;
+    tc.appendChild(pr);
+  });
+  ri.appendChild(tc);
+
+  // 5. Warnings
+  if (d.warnings?.length) {
+    const wb = mk("div", "wbox fu");
+    wb.innerHTML = d.warnings.map(w => `<p>⚠  ${w}</p>`).join("");
+    ri.appendChild(wb);
+  }
+
+  // 6. Jan Aushadhi Footer
+  const ja = mk("div", "ja fu");
+  ja.innerHTML = `
+    <span style="font-size:18px;flex-shrink:0;margin-top:1px">🏪</span>
+    <div>
+      <h4>Pradhan Mantri Jan Aushadhi Kendra (PMBJAK)</h4>
+      <p>Available at Jan Aushadhi Kendras across India.
+      Find nearest store at <a href="https://janaushadhi.gov.in" target="_blank" rel="noopener">janaushadhi.gov.in</a>
+      · Toll-free 1800-180-8080 · 15,000+ stores nationwide.</p>
+    </div>`;
+  ri.appendChild(ja);
+
+  // 7. Disclaimer
+  const di = mk("div", "disc fu");
+  di.innerHTML = `
+    <p><strong>Prices are AI-estimated MRPs</strong> based on NPPA data and Jan Aushadhi lists (2024–25).
+    Actual prices vary by city. <strong>Always consult your doctor before switching any medicine.</strong></p>`;
+  ri.appendChild(di);
+
+  resEl.classList.add("show");
+  softScrollToResults();
+  setTimeout(() => {
+    document.querySelectorAll(".bf[data-w]").forEach(b => {
+      const w = b.dataset.w; b.style.width = "0%";
+      requestAnimationFrame(() => { b.style.width = w + "%"; });
+    });
+  }, 200);
+}
+function softScrollToResults() {
+  const y = document.querySelector(".srow").offsetTop + 120;
+
+  window.scrollTo({
+    top: y,
+    behavior: "smooth"
+  });
+}
+function buildRows(d) {
+  const rows = [];
+  const t = d.tiers || {};
+
+  if (t.trueGeneric?.mrp) {
+    rows.push({ n: t.trueGeneric.label, m: "Unbranded · Jan Aushadhi Store",
+      p: t.trueGeneric.mrp, tier: "tg", rc: "ptop", bc: "bg", pc: "cg",
+      badges: [{ c: "tc2", l: "✓ Cheapest" }, { c: "tj", l: "Jan Aushadhi" }] });
+  }
+
+  if (t.brand) {
+    rows.push({
+      n: t.brand.name, m: t.brand.manufacturer + " · Branded",
+      p: t.brand.mrp, tier: "brand", rc: "pbrand", bc: "bam", pc: "cm",
+      badges: [{ c: "tbr", l: "Branded" }]
+    });
+  }
+
+  return rows.sort((a, b) => a.p - b.p);
+}
+</script>
+</body>
+</html>
