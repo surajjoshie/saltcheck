@@ -392,7 +392,7 @@ async function uploadImage(input) {
   formData.append("medicinePhoto", file);
 
   try {
-    const res = await fetch("http://localhost:3000/api/upload-image", {
+    const res = await fetch("https://saltcheck.onrender.com/api/upload-image", {
       method: "POST",
       body: formData
     });
@@ -424,7 +424,7 @@ async function search() {
   setLoading(true);
 
   try {
-    const res = await fetch("http://localhost:3000/api/lookup", {
+    const res = await fetch("https://saltcheck.onrender.com/api/lookup", {
       method:  "POST",
       headers: { "Content-Type": "application/json" },
       body:     JSON.stringify({ medicine: q })
